@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light" style="color-scheme: light;"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TKA CBT - Kelas 6 SD</title>
+<style>
+:root{
+  --primary:#1e40af; --primary-dark:#1e3a8a; --accent:#0ea5e9;
+  --bg:#eef2f7; --card:#ffffff; --text:#1e293b; --muted:#64748b;
+  --ok:#16a34a; --warn:#dc2626; --border:#dbe3ee;
+  box-sizing:border-box;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --border:#334155;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f172a; --card:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --border:#334155;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%}
+body{
+  margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--bg);color:var(--text);
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  min-height:100%;
+}
+#app{max-width:900px;margin:0 auto;padding:16px}
+.topbar{background:var(--primary);color:#fff;padding:14px 18px;padding-top:calc(14px + env(safe-area-inset-top,0px));
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.topbar h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.3px}
+.topbar small{opacity:.85;font-size:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin:16px auto;max-width:520px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card.wide{max-width:900px}
+h2{margin-top:0;font-size:20px;color:var(--primary)}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 4px;color:var(--muted)}
+input[type=text],input[type=date],input[type=number],select{
+  width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:15px;
+  background:var(--card);color:var(--text);
+}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+button{cursor:pointer;font-family:inherit}
+.btn{background:var(--primary);color:#fff;border:none;padding:11px 20px;border-radius:8px;font-size:15px;font-weight:600;transition:.15s}
+.btn:hover{background:var(--primary-dark)}
+.btn.secondary{background:#fff;color:var(--primary);border:1.5px solid var(--primary)}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:640px;margin:0 auto}
+@media(max-width:480px){.grid4{grid-template-columns:1fr}}
+.paket-btn{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:22px;text-align:left;font-size:16px;font-weight:700;color:var(--text)}
+.paket-btn:hover{border-color:var(--accent)}
+.paket-btn span{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:6px}
+.timerbox{background:var(--warn);color:#fff;padding:6px 14px;border-radius:20px;font-weight:700;font-size:14px;min-width:70px;text-align:center}
+.timerbox.low{background:#b91c1c;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.6}}
+.exam-layout{display:grid;grid-template-columns:1fr 220px;gap:16px}
+@media(max-width:720px){.exam-layout{grid-template-columns:1fr}}
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px}
+.qcard img{max-width:100%;border-radius:8px;margin:10px 0}
+.opt{display:block;width:100%;text-align:left;padding:12px 14px;margin:8px 0;border:1.5px solid var(--border);
+  border-radius:10px;background:var(--card);color:var(--text);font-size:15px}
+.opt b{display:inline-block;width:22px}
+.opt.sel{border-color:var(--primary);background:rgba(30,64,175,.08);font-weight:600}
+.navbar{display:flex;justify-content:space-between;margin-top:16px;gap:10px}
+.navgrid{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;align-self:start}
+.navgrid h4{margin:0 0 10px;font-size:13px;color:var(--muted)}
+.numgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.numbtn{width:100%;aspect-ratio:1;border-radius:6px;border:1px solid var(--border);background:var(--bg);font-size:12px;font-weight:700;color:var(--text)}
+.numbtn.answered{background:var(--ok);color:#fff;border-color:var(--ok)}
+.numbtn.current{outline:2px solid var(--primary);outline-offset:1px}
+.legend{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6}
+.finish-btn{width:100%;margin-top:14px;background:var(--warn)}
+.finish-btn:hover{background:#b91c1c}
+.result-score{font-size:52px;font-weight:800;color:var(--primary);text-align:center;margin:6px 0}
+.result-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.link{color:var(--accent);background:none;border:none;text-decoration:underline;font-size:13px;padding:4px}
+.adm-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.adm-tabs button{padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:13px}
+.adm-tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:8px;border-bottom:1px solid var(--border);text-align:left}
+.qlist-item{border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px}
+.qlist-item img{max-width:120px;display:block;border-radius:6px;margin:6px 0}
+.small{font-size:12px;color:var(--muted)}
+textarea{width:100%;padding:10px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;background:var(--card);color:var(--text)}
+.flexrow{display:flex;gap:10px;flex-wrap:wrap}
+.wrap-center{max-width:100%;overflow-x:auto}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 0}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal-box{background:var(--card);border-radius:12px;padding:22px;max-width:380px;width:100%;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.modal-box p{margin:0 0 18px;font-size:15px;color:var(--text)}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px}
+.review-item{border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid var(--border)}
+.review-item.ok{border-left-color:var(--ok)}
+.review-item.salah{border-left-color:var(--warn)}
+.review-item img{max-width:100%;border-radius:8px;margin:8px 0}
+.review-status{font-weight:700;font-size:13px}
+.review-status.ok{color:var(--ok)}
+.review-status.salah{color:var(--warn)}
+.pembahasan-box{background:var(--bg);border-radius:8px;padding:10px 12px;margin-top:8px;font-size:13px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1>TKA - Tes Kemampuan Akademik<br><small>Kelas 6 SD · Computer Based Test</small></h1>
+  <div id="timerSlot"></div>
+</div>
+<div id="app">
+  <div class="card wide">
+    <h2>Panel Administrator</h2>
+    <p class="small" id="centralStatus">✅ Mode terpusat aktif — perubahan soal &amp; waktu otomatis terbaca semua siswa saat mereka membuka/memuat ulang halaman.</p>
+    <div class="adm-tabs">
+      <button data-t="soal" class="active">Kelola Soal</button>
+      <button data-t="waktu" class="">Pengaturan Waktu</button>
+      <button data-t="hasil" class="">Rekap Hasil</button>
+      <button class="ghost" id="alogout" style="margin-left:auto">Keluar</button>
+    </div>
+    <div id="adminBody">
+      <label>Pilih Paket</label>
+      <select id="admPaketSel"><option value="mtk1" selected="">Matematika SD - Paket 1</option><option value="mtk2">Matematika SD - Paket 2</option><option value="bin1">Bahasa Indonesia SD - Paket 1</option><option value="bin2">Bahasa Indonesia SD - Paket 2</option></select>
+      <div id="qlist" style="margin-top:16px">
+    <div class="qlist-item">
+      <b>1. Hasil dari 245 + 178 adalah ...</b>
+      
+      <div class="small">A. 423 · B. 413 · C. 433 · D. 403</div>
+      <div class="small">Jawaban benar: <b>A</b></div>
+      <div class="small">Pembahasan: 245 + 178 = 423. Jumlahkan satuan, puluhan, lalu ratusan dengan menyimpan (menyimpan 1 dari satuan dan puluhan).</div>
+      <div style="margin-top:6px"><button class="link" data-del="1">Hapus Soal</button></div>
+    </div>
+  
+    <div class="qlist-item">
+      <b>2. KPK dari 6 dan 8 adalah ...</b>
+      
+      <div class="small">A. 12 · B. 24 · C. 48 · D. 16</div>
+      <div class="small">Jawaban benar: <b>B</b></div>
+      <div class="small">Pembahasan: Kelipatan 6: 6,12,18,24... Kelipatan 8: 8,16,24... Kelipatan persekutuan terkecil adalah 24.</div>
+      <div style="margin-top:6px"><button class="link" data-del="2">Hapus Soal</button></div>
+    </div>
+  
+    <div class="qlist-item">
+      <b>3. Sebuah persegi memiliki sisi 9 cm. Luas persegi tersebut adalah ...</b>
+      
+      <div class="small">A. 81 cm² · B. 36 cm² · C. 18 cm² · D. 72 cm²</div>
+      <div class="small">Jawaban benar: <b>A</b></div>
+      <div class="small">Pembahasan: Luas persegi = sisi × sisi = 9 × 9 = 81 cm².</div>
+      <div style="margin-top:6px"><button class="link" data-del="3">Hapus Soal</button></div>
+    </div>
+  
+    <div class="qlist-item">
+      <b>4. Bentuk pecahan 0,75 jika diubah menjadi pecahan biasa adalah ...</b>
+      
+      <div class="small">A. 1/4 · B. 1/2 · C. 3/4 · D. 7/5</div>
+      <div class="small">Jawaban benar: <b>C</b></div>
+      <div class="small">Pembahasan: 0,75 = 75/100 = 3/4 setelah disederhanakan (dibagi 25).</div>
+      <div style="margin-top:6px"><button class="link" data-del="4">Hapus Soal</button></div>
+    </div>
+  
+    <div class="qlist-item">
+      <b>5. Hasil dari 12 x 15 : 4 adalah ...</b>
+      
+      <div class="small">A. 30 · B. 45 · C. 60 · D. 48</div>
+      <div class="small">Jawaban benar: <b>B</b></div>
+      <div class="small">Pembahasan: Urutan operasi dari kiri: 12 × 15 = 180, kemudian 180 : 4 = 45.</div>
+      <div style="margin-top:6px"><button class="link" data-del="5">Hapus Soal</button></div>
+    </div>
+  </div>
+      <h3>Tambah Soal Baru</h3>
+      <label>Teks Soal</label>
+      <textarea id="nqtext" rows="2"></textarea>
+      <label>Gambar Soal (opsional)</label>
+      <input type="file" id="nqimg" accept="image/*">
+      <label>Pilihan A</label><input type="text" id="nqa">
+      <label>Pilihan B</label><input type="text" id="nqb">
+      <label>Pilihan C</label><input type="text" id="nqc">
+      <label>Pilihan D</label><input type="text" id="nqd">
+      <label>Jawaban Benar</label>
+      <select id="nqcorrect"><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      <label>Pembahasan</label>
+      <textarea id="nqpemb" rows="2" placeholder="Jelaskan cara/alasan jawaban yang benar"></textarea>
+      <div style="text-align:right;margin-top:12px"><button class="btn" id="btnAddQ">Tambah Soal</button></div>
+    </div>
+  </div></div>
+<script id="data-store" type="application/json">{"questions":{"mtk1":[{"id":1,"text":"Hasil dari 245 + 178 adalah ...","img":null,"options":{"A":"423","B":"413","C":"433","D":"403"},"correct":"A","pembahasan":"245 + 178 = 423. Jumlahkan satuan, puluhan, lalu ratusan dengan menyimpan (menyimpan 1 dari satuan dan puluhan)."},{"id":2,"text":"KPK dari 6 dan 8 adalah ...","img":null,"options":{"A":"12","B":"24","C":"48","D":"16"},"correct":"B","pembahasan":"Kelipatan 6: 6,12,18,24... Kelipatan 8: 8,16,24... Kelipatan persekutuan terkecil adalah 24."},{"id":3,"text":"Sebuah persegi memiliki sisi 9 cm. Luas persegi tersebut adalah ...","img":null,"options":{"A":"81 cm²","B":"36 cm²","C":"18 cm²","D":"72 cm²"},"correct":"A","pembahasan":"Luas persegi = sisi × sisi = 9 × 9 = 81 cm²."},{"id":4,"text":"Bentuk pecahan 0,75 jika diubah menjadi pecahan biasa adalah ...","img":null,"options":{"A":"1/4","B":"1/2","C":"3/4","D":"7/5"},"correct":"C","pembahasan":"0,75 = 75/100 = 3/4 setelah disederhanakan (dibagi 25)."},{"id":5,"text":"Hasil dari 12 x 15 : 4 adalah ...","img":null,"options":{"A":"30","B":"45","C":"60","D":"48"},"correct":"B","pembahasan":"Urutan operasi dari kiri: 12 × 15 = 180, kemudian 180 : 4 = 45."},{"id":6,"text":"akar dari 225 adalah ...","img":null,"options":{"A":"14","B":"15","C":"16","D":"17"},"correct":"B","pembahasan":"15x15=225"}],"mtk2":[{"id":1,"text":"FPB dari 18 dan 24 adalah ...","img":null,"options":{"A":"3","B":"6","C":"9","D":"12"},"correct":"B","pembahasan":"Faktor 18: 1,2,3,6,9,18. Faktor 24: 1,2,3,4,6,8,12,24. Faktor persekutuan terbesar adalah 6."},{"id":2,"text":"Volume kubus dengan panjang rusuk 5 cm adalah ...","img":null,"options":{"A":"125 cm³","B":"25 cm³","C":"75 cm³","D":"100 cm³"},"correct":"A","pembahasan":"Volume kubus = sisi³ = 5 × 5 × 5 = 125 cm³."},{"id":3,"text":"Rata-rata dari nilai 70, 80, 90, 60 adalah ...","img":null,"options":{"A":"70","B":"75","C":"80","D":"65"},"correct":"B","pembahasan":"Jumlah semua nilai = 70+80+90+60 = 300. Rata-rata = 300 : 4 = 75."},{"id":4,"text":"Hasil dari 3/4 + 1/2 adalah ...","img":null,"options":{"A":"1 1/4","B":"1","C":"5/6","D":"1 1/2"},"correct":"A","pembahasan":"Samakan penyebut: 3/4 + 2/4 = 5/4 = 1 1/4."},{"id":5,"text":"Sudut siku-siku besarnya ...","img":null,"options":{"A":"180°","B":"90°","C":"45°","D":"360°"},"correct":"B","pembahasan":"Sudut siku-siku adalah sudut yang besarnya tepat 90 derajat."}],"bin1":[{"id":1,"text":"Kalimat yang menggunakan kata baku adalah ...","img":null,"options":{"A":"Ia sudah paham","B":"Ia sudah faham","C":"Ia sudah ngerti","D":"Ia udah paham"},"correct":"A","pembahasan":"Kata baku menurut KBBI adalah 'paham', bukan 'faham' atau 'ngerti' yang merupakan bentuk tidak baku/percakapan."},{"id":2,"text":"Ide pokok sebuah paragraf biasanya terdapat pada ...","img":null,"options":{"A":"Judul saja","B":"Kalimat utama","C":"Kalimat penutup selalu","D":"Nama pengarang"},"correct":"B","pembahasan":"Ide pokok terkandung dalam kalimat utama, yang dapat terletak di awal, akhir, atau awal-akhir paragraf."},{"id":3,"text":"Sinonim dari kata 'gembira' adalah ...","img":null,"options":{"A":"Sedih","B":"Marah","C":"Senang","D":"Takut"},"correct":"C","pembahasan":"Sinonim adalah persamaan makna kata. 'Gembira' bermakna sama dengan 'senang'."},{"id":4,"text":"Kata tanya untuk menanyakan tempat adalah ...","img":null,"options":{"A":"Kapan","B":"Di mana","C":"Mengapa","D":"Siapa"},"correct":"B","pembahasan":"'Di mana' digunakan untuk menanyakan lokasi atau tempat suatu kejadian."},{"id":5,"text":"Antonim dari kata 'rajin' adalah ...","img":null,"options":{"A":"Giat","B":"Tekun","C":"Malas","D":"Cerdas"},"correct":"C","pembahasan":"Antonim adalah lawan kata. Lawan dari 'rajin' adalah 'malas'."}],"bin2":[{"id":1,"text":"Teks yang berisi langkah-langkah membuat sesuatu disebut teks ...","img":null,"options":{"A":"Narasi","B":"Prosedur","C":"Deskripsi","D":"Puisi"},"correct":"B","pembahasan":"Teks prosedur berisi langkah-langkah sistematis untuk melakukan atau membuat sesuatu."},{"id":2,"text":"Kalimat tanya yang tepat untuk jawaban 'Karena hujan deras' adalah ...","img":null,"options":{"A":"Kapan ia pergi?","B":"Mengapa jalanan becek?","C":"Siapa yang datang?","D":"Di mana ia berada?"},"correct":"B","pembahasan":"Jawaban berisi alasan/sebab ('karena...'), maka kata tanya yang sesuai adalah 'mengapa'."},{"id":3,"text":"Kata berimbuhan 'mem-' + 'baca' menjadi ...","img":null,"options":{"A":"Membaca","B":"Memmbaca","C":"Mempbaca","D":"Membbaca"},"correct":"A","pembahasan":"Awalan 'mem-' bertemu kata dasar berhuruf awal 'b' tetap luluh menjadi 'membaca', tanpa penggandaan huruf."},{"id":4,"text":"Bagian akhir dari sebuah cerita disebut ...","img":null,"options":{"A":"Orientasi","B":"Komplikasi","C":"Resolusi","D":"Pembuka"},"correct":"C","pembahasan":"Struktur cerita: orientasi (pengenalan), komplikasi (konflik), lalu resolusi (penyelesaian) di bagian akhir."},{"id":5,"text":"Kalimat yang menggunakan huruf kapital dengan benar adalah ...","img":null,"options":{"A":"saya tinggal di jakarta","B":"Saya tinggal di Jakarta","C":"Saya Tinggal di jakarta","D":"saya Tinggal di Jakarta"},"correct":"B","pembahasan":"Huruf kapital digunakan di awal kalimat ('Saya') dan pada nama tempat ('Jakarta')."}]},"timers":{"mtk1":30,"mtk2":30,"bin1":30,"bin2":30}}</script>
+<footer>Simulasi CBT TKA — bukan soal resmi Kemendikdasmen</footer>
+
+<script>
+const PAKET_LABEL = {
+  mtk1:"Matematika SD - Paket 1", mtk2:"Matematika SD - Paket 2",
+  bin1:"Bahasa Indonesia SD - Paket 1", bin2:"Bahasa Indonesia SD - Paket 2"
+};
+const DEFAULT_Q = {
+  mtk1:[
+    {id:1,text:"Hasil dari 245 + 178 adalah ...",img:null,options:{A:"423",B:"413",C:"433",D:"403"},correct:"A",pembahasan:"245 + 178 = 423. Jumlahkan satuan, puluhan, lalu ratusan dengan menyimpan (menyimpan 1 dari satuan dan puluhan)."},
+    {id:2,text:"KPK dari 6 dan 8 adalah ...",img:null,options:{A:"12",B:"24",C:"48",D:"16"},correct:"B",pembahasan:"Kelipatan 6: 6,12,18,24... Kelipatan 8: 8,16,24... Kelipatan persekutuan terkecil adalah 24."},
+    {id:3,text:"Sebuah persegi memiliki sisi 9 cm. Luas persegi tersebut adalah ...",img:null,options:{A:"81 cm\u00b2",B:"36 cm\u00b2",C:"18 cm\u00b2",D:"72 cm\u00b2"},correct:"A",pembahasan:"Luas persegi = sisi \u00d7 sisi = 9 \u00d7 9 = 81 cm\u00b2."},
+    {id:4,text:"Bentuk pecahan 0,75 jika diubah menjadi pecahan biasa adalah ...",img:null,options:{A:"1/4",B:"1/2",C:"3/4",D:"7/5"},correct:"C",pembahasan:"0,75 = 75/100 = 3/4 setelah disederhanakan (dibagi 25)."},
+    {id:5,text:"Hasil dari 12 x 15 : 4 adalah ...",img:null,options:{A:"30",B:"45",C:"60",D:"48"},correct:"B",pembahasan:"Urutan operasi dari kiri: 12 \u00d7 15 = 180, kemudian 180 : 4 = 45."}
+  ],
+  mtk2:[
+    {id:1,text:"FPB dari 18 dan 24 adalah ...",img:null,options:{A:"3",B:"6",C:"9",D:"12"},correct:"B",pembahasan:"Faktor 18: 1,2,3,6,9,18. Faktor 24: 1,2,3,4,6,8,12,24. Faktor persekutuan terbesar adalah 6."},
+    {id:2,text:"Volume kubus dengan panjang rusuk 5 cm adalah ...",img:null,options:{A:"125 cm\u00b3",B:"25 cm\u00b3",C:"75 cm\u00b3",D:"100 cm\u00b3"},correct:"A",pembahasan:"Volume kubus = sisi\u00b3 = 5 \u00d7 5 \u00d7 5 = 125 cm\u00b3."},
+    {id:3,text:"Rata-rata dari nilai 70, 80, 90, 60 adalah ...",img:null,options:{A:"70",B:"75",C:"80",D:"65"},correct:"B",pembahasan:"Jumlah semua nilai = 70+80+90+60 = 300. Rata-rata = 300 : 4 = 75."},
+    {id:4,text:"Hasil dari 3/4 + 1/2 adalah ...",img:null,options:{A:"1 1/4",B:"1",C:"5/6",D:"1 1/2"},correct:"A",pembahasan:"Samakan penyebut: 3/4 + 2/4 = 5/4 = 1 1/4."},
+    {id:5,text:"Sudut siku-siku besarnya ...",img:null,options:{A:"180\u00b0",B:"90\u00b0",C:"45\u00b0",D:"360\u00b0"},correct:"B",pembahasan:"Sudut siku-siku adalah sudut yang besarnya tepat 90 derajat."}
+  ],
+  bin1:[
+    {id:1,text:"Kalimat yang menggunakan kata baku adalah ...",img:null,options:{A:"Ia sudah paham",B:"Ia sudah faham",C:"Ia sudah ngerti",D:"Ia udah paham"},correct:"A",pembahasan:"Kata baku menurut KBBI adalah 'paham', bukan 'faham' atau 'ngerti' yang merupakan bentuk tidak baku/percakapan."},
+    {id:2,text:"Ide pokok sebuah paragraf biasanya terdapat pada ...",img:null,options:{A:"Judul saja",B:"Kalimat utama",C:"Kalimat penutup selalu",D:"Nama pengarang"},correct:"B",pembahasan:"Ide pokok terkandung dalam kalimat utama, yang dapat terletak di awal, akhir, atau awal-akhir paragraf."},
+    {id:3,text:"Sinonim dari kata 'gembira' adalah ...",img:null,options:{A:"Sedih",B:"Marah",C:"Senang",D:"Takut"},correct:"C",pembahasan:"Sinonim adalah persamaan makna kata. 'Gembira' bermakna sama dengan 'senang'."},
+    {id:4,text:"Kata tanya untuk menanyakan tempat adalah ...",img:null,options:{A:"Kapan",B:"Di mana",C:"Mengapa",D:"Siapa"},correct:"B",pembahasan:"'Di mana' digunakan untuk menanyakan lokasi atau tempat suatu kejadian."},
+    {id:5,text:"Antonim dari kata 'rajin' adalah ...",img:null,options:{A:"Giat",B:"Tekun",C:"Malas",D:"Cerdas"},correct:"C",pembahasan:"Antonim adalah lawan kata. Lawan dari 'rajin' adalah 'malas'."}
+  ],
+  bin2:[
+    {id:1,text:"Teks yang berisi langkah-langkah membuat sesuatu disebut teks ...",img:null,options:{A:"Narasi",B:"Prosedur",C:"Deskripsi",D:"Puisi"},correct:"B",pembahasan:"Teks prosedur berisi langkah-langkah sistematis untuk melakukan atau membuat sesuatu."},
+    {id:2,text:"Kalimat tanya yang tepat untuk jawaban 'Karena hujan deras' adalah ...",img:null,options:{A:"Kapan ia pergi?",B:"Mengapa jalanan becek?",C:"Siapa yang datang?",D:"Di mana ia berada?"},correct:"B",pembahasan:"Jawaban berisi alasan/sebab ('karena...'), maka kata tanya yang sesuai adalah 'mengapa'."},
+    {id:3,text:"Kata berimbuhan 'mem-' + 'baca' menjadi ...",img:null,options:{A:"Membaca",B:"Memmbaca",C:"Mempbaca",D:"Membbaca"},correct:"A",pembahasan:"Awalan 'mem-' bertemu kata dasar berhuruf awal 'b' tetap luluh menjadi 'membaca', tanpa penggandaan huruf."},
+    {id:4,text:"Bagian akhir dari sebuah cerita disebut ...",img:null,options:{A:"Orientasi",B:"Komplikasi",C:"Resolusi",D:"Pembuka"},correct:"C",pembahasan:"Struktur cerita: orientasi (pengenalan), komplikasi (konflik), lalu resolusi (penyelesaian) di bagian akhir."},
+    {id:5,text:"Kalimat yang menggunakan huruf kapital dengan benar adalah ...",img:null,options:{A:"saya tinggal di jakarta",B:"Saya tinggal di Jakarta",C:"Saya Tinggal di jakarta",D:"saya Tinggal di Jakarta"},correct:"B",pembahasan:"Huruf kapital digunakan di awal kalimat ('Saya') dan pada nama tempat ('Jakarta')."}
+  ]
+};
+const LS = { r:"tka_results" };
+const DEFAULT_TIMERS = {mtk1:30,mtk2:30,bin1:30,bin2:30};
+function ensureStore(){
+  const el = document.getElementById("data-store");
+  if(el && !el.textContent.trim()){
+    el.textContent = JSON.stringify({questions:DEFAULT_Q, timers:DEFAULT_TIMERS});
+  }
+}
+function getStore(){
+  const fb = localStorage.getItem("tka_store_fallback");
+  if(fb){ try{ return JSON.parse(fb); }catch(e){} }
+  ensureStore();
+  try{ return JSON.parse(document.getElementById("data-store").textContent); }
+  catch(e){ return {questions:JSON.parse(JSON.stringify(DEFAULT_Q)), timers:{...DEFAULT_TIMERS}}; }
+}
+function buildHtmlSnapshot(store){
+  const clone = document.documentElement.cloneNode(true);
+  const ds = clone.querySelector("#data-store");
+  if(ds) ds.textContent = JSON.stringify(store);
+  return "<!DOCTYPE html>\n" + clone.outerHTML;
+}
+let centralAvailable = null;
+async function saveStore(store){
+  const dsEl = document.getElementById("data-store");
+  if(dsEl) dsEl.textContent = JSON.stringify(store);
+  let published = false;
+  try{
+    if(window.claude){
+      const art = await window.claude.use("artifact");
+      if(art){ await art.publish(buildHtmlSnapshot(store)); published = true; centralAvailable = true; }
+      else centralAvailable = false;
+    } else centralAvailable = false;
+  }catch(e){ centralAvailable = false; }
+  if(!published){
+    localStorage.setItem("tka_store_fallback", JSON.stringify(store));
+    showAlert("Perubahan tersimpan, tetapi mode terpusat tidak aktif di sesi ini sehingga hanya berlaku di perangkat ini. Buka artifact ini di claude.ai sebagai pemilik/editor agar perubahan otomatis terbaca semua siswa.");
+  }
+  return published;
+}
+function loadResults(){ try{ return JSON.parse(localStorage.getItem(LS.r))||[]; }catch(e){ return []; } }
+function saveResult(r){ const all=loadResults(); all.unshift(r); localStorage.setItem(LS.r, JSON.stringify(all)); }
+async function checkCentralStatus(){
+  let avail = false;
+  try{ if(window.claude){ const art = await window.claude.use("artifact"); avail = !!art; } }catch(e){ avail = false; }
+  centralAvailable = avail;
+  const el = document.getElementById("centralStatus");
+  if(el) el.textContent = avail
+    ? "\u2705 Mode terpusat aktif \u2014 perubahan soal & waktu otomatis terbaca semua siswa saat mereka membuka/memuat ulang halaman."
+    : "\u26a0\ufe0f Mode terpusat tidak aktif di sesi ini \u2014 perubahan hanya tersimpan di perangkat ini. Buka artifact ini di claude.ai (sebagai pemilik/editor) agar tersinkron ke semua siswa.";
+}
+
+let S = { screen:"login", login:{}, paket:null, siswa:{}, questions:[], answers:{}, idx:0, secondsLeft:0, timerId:null };
+const app = document.getElementById("app");
+const timerSlot = document.getElementById("timerSlot");
+
+function esc(s){ return (s||"").replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function showAlert(msg){
+  const ov=document.createElement("div");
+  ov.className="modal-overlay";
+  ov.innerHTML=`<div class="modal-box"><p>${esc(msg)}</p><div class="modal-actions"><button class="btn" id="mOk">OK</button></div></div>`;
+  document.body.appendChild(ov);
+  document.getElementById("mOk").onclick=()=>ov.remove();
+}
+function showConfirm(msg, onYes){
+  const ov=document.createElement("div");
+  ov.className="modal-overlay";
+  ov.innerHTML=`<div class="modal-box"><p>${esc(msg)}</p><div class="modal-actions"><button class="btn ghost" id="mNo">Batal</button><button class="btn" id="mYes">Ya</button></div></div>`;
+  document.body.appendChild(ov);
+  document.getElementById("mNo").onclick=()=>ov.remove();
+  document.getElementById("mYes").onclick=()=>{ ov.remove(); onYes(); };
+}
+function render(){
+  timerSlot.innerHTML = "";
+  if(S.screen==="login") return renderLogin();
+  if(S.screen==="paket") return renderPaket();
+  if(S.screen==="biodata") return renderBiodata();
+  if(S.screen==="ujian") return renderUjian();
+  if(S.screen==="hasil") return renderHasil();
+  if(S.screen==="adminlogin") return renderAdminLogin();
+  if(S.screen==="admin") return renderAdmin();
+}
+function renderLogin(){
+  app.innerHTML = `
+  <div class="card">
+    <h2>Login Peserta</h2>
+    <label>Nama Lengkap</label>
+    <input type="text" id="lname" placeholder="Masukkan nama lengkap">
+    <label>Nomor Peserta</label>
+    <input type="text" id="lnope" placeholder="Masukkan nomor peserta">
+    <div style="margin-top:18px;text-align:right">
+      <button class="btn" id="btnLogin">Masuk &rarr;</button>
+    </div>
+    <div style="text-align:center;margin-top:14px">
+      <button class="link" id="btnAdmin">Login Administrator</button>
+    </div>
+  </div>`;
+  document.getElementById("btnLogin").onclick = ()=>{
+    const nama = document.getElementById("lname").value.trim();
+    const nope = document.getElementById("lnope").value.trim();
+    if(!nama||!nope){ showAlert("Nama dan Nomor Peserta wajib diisi."); return; }
+    S.login = {nama, nope};
+    S.screen = "paket"; render();
+  };
+  document.getElementById("btnAdmin").onclick = ()=>{ S.screen="adminlogin"; render(); };
+}
+function renderPaket(){
+  app.innerHTML = `
+  <div class="card wide">
+    <h2>Pilih Paket Ujian</h2>
+    <p class="small">Peserta: <b>${esc(S.login.nama)}</b> &middot; No. Peserta: <b>${esc(S.login.nope)}</b></p>
+    <div class="grid4">
+      ${Object.keys(PAKET_LABEL).map(k=>`
+        <button class="paket-btn" data-k="${k}">${PAKET_LABEL[k]}<span>5 soal pilihan ganda</span></button>
+      `).join("")}
+    </div>
+  </div>`;
+  app.querySelectorAll(".paket-btn").forEach(b=>{
+    b.onclick = ()=>{ S.paket = b.dataset.k; S.screen="biodata"; render(); };
+  });
+}
+function renderBiodata(){
+  app.innerHTML = `
+  <div class="card">
+    <h2>Data Peserta</h2>
+    <p class="small">Paket: <b>${PAKET_LABEL[S.paket]}</b></p>
+    <label>Kode NIK</label>
+    <input type="text" id="bnik" placeholder="16 digit NIK">
+    <label>Nama Peserta</label>
+    <input type="text" id="bnama" value="${esc(S.login.nama)}">
+    <label>Jenis Kelamin</label>
+    <select id="bjk"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select>
+    <label>Tanggal Lahir</label>
+    <input type="date" id="btgl">
+    <div style="margin-top:18px;text-align:right;display:flex;justify-content:space-between">
+      <button class="btn ghost" id="btnBack">&larr; Kembali</button>
+      <button class="btn" id="btnMulai">Mulai Ujian</button>
+    </div>
+  </div>`;
+  document.getElementById("btnBack").onclick=()=>{ S.screen="paket"; render(); };
+  document.getElementById("btnMulai").onclick=()=>{
+    const nik=document.getElementById("bnik").value.trim();
+    const nama=document.getElementById("bnama").value.trim();
+    const jk=document.getElementById("bjk").value;
+    const tgl=document.getElementById("btgl").value;
+    if(!nik||!nama||!tgl){ showAlert("Lengkapi semua data peserta."); return; }
+    S.siswa = {nik,nama,jk,tgl};
+    startUjian();
+  };
+}
+function startUjian(){
+  const store = getStore();
+  S.questions = store.questions[S.paket] || [];
+  S.answers = {}; S.idx = 0;
+  S.secondsLeft = (store.timers[S.paket]||30) * 60;
+  S.screen = "ujian";
+  render();
+  clearInterval(S.timerId);
+  S.timerId = setInterval(()=>{
+    S.secondsLeft--;
+    updateTimerDisplay();
+    if(S.secondsLeft<=0){ clearInterval(S.timerId); finishUjian(); }
+  },1000);
+}
+function fmtTime(sec){
+  const m = Math.floor(sec/60), s = sec%60;
+  return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+function updateTimerDisplay(){
+  const el = document.getElementById("timerDisplay");
+  if(el){ el.textContent = fmtTime(S.secondsLeft); el.className = "timerbox"+(S.secondsLeft<=60?" low":""); }
+  const t2 = document.getElementById("timerDisplayTop");
+  if(t2){ t2.textContent = fmtTime(S.secondsLeft); t2.className = "timerbox"+(S.secondsLeft<=60?" low":""); }
+}
+function renderUjian(){
+  timerSlot.innerHTML = `<div class="timerbox" id="timerDisplayTop">${fmtTime(S.secondsLeft)}</div>`;
+  const q = S.questions[S.idx];
+  if(!q){ app.innerHTML = "<div class='card'>Tidak ada soal pada paket ini.</div>"; return; }
+  const total = S.questions.length;
+  app.innerHTML = `
+  <div class="exam-layout">
+    <div class="qcard">
+      <div class="small">Soal ${S.idx+1} dari ${total} &middot; ${PAKET_LABEL[S.paket]}</div>
+      <div class="timerbox" id="timerDisplay" style="display:inline-block;margin:8px 0">${fmtTime(S.secondsLeft)}</div>
+      <p style="font-size:16px;line-height:1.6">${esc(q.text)}</p>
+      ${q.img?`<img src="${q.img}" alt="gambar soal">`:""}
+      ${["A","B","C","D"].map(letter=>`
+        <button class="opt ${S.answers[q.id]===letter?'sel':''}" data-l="${letter}"><b>${letter}.</b> ${esc(q.options[letter]||"")}</button>
+      `).join("")}
+      <div class="navbar">
+        <button class="btn ghost" id="btnPrev" ${S.idx===0?"disabled":""}>&larr; Sebelumnya</button>
+        ${S.idx===total-1?
+          `<button class="btn finish-btn" id="btnSelesai">Selesai</button>`:
+          `<button class="btn" id="btnNext">Berikutnya &rarr;</button>`}
+      </div>
+    </div>
+    <div class="navgrid">
+      <h4>Navigasi Soal</h4>
+      <div class="numgrid">
+        ${S.questions.map((qq,i)=>`<button class="numbtn ${S.answers[qq.id]?'answered':''} ${i===S.idx?'current':''}" data-i="${i}">${i+1}</button>`).join("")}
+      </div>
+      <div class="legend">&#9632; Hijau = sudah dijawab<br>&#9632; Kotak biru = soal aktif</div>
+      <button class="btn finish-btn" id="btnSelesai2" style="margin-top:14px">Selesai Ujian</button>
+    </div>
+  </div>`;
+  app.querySelectorAll(".opt").forEach(b=>{
+    b.onclick = ()=>{ S.answers[q.id] = b.dataset.l; renderUjian(); };
+  });
+  const prev = document.getElementById("btnPrev");
+  if(prev) prev.onclick = ()=>{ S.idx--; renderUjian(); };
+  const next = document.getElementById("btnNext");
+  if(next) next.onclick = ()=>{ S.idx++; renderUjian(); };
+  app.querySelectorAll(".numbtn").forEach(b=>{
+    b.onclick = ()=>{ S.idx = parseInt(b.dataset.i); renderUjian(); };
+  });
+  const fin = document.getElementById("btnSelesai") || document.getElementById("btnSelesai2");
+  if(document.getElementById("btnSelesai")) document.getElementById("btnSelesai").onclick=confirmFinish;
+  if(document.getElementById("btnSelesai2")) document.getElementById("btnSelesai2").onclick=confirmFinish;
+}
+function confirmFinish(){
+  const unanswered = S.questions.filter(q=>!S.answers[q.id]).length;
+  const msg = unanswered>0 ? `Masih ada ${unanswered} soal belum dijawab. Yakin ingin mengakhiri ujian?` : "Yakin ingin mengakhiri ujian?";
+  showConfirm(msg, ()=>{ clearInterval(S.timerId); finishUjian(); });
+}
+function finishUjian(){
+  let correct = 0;
+  S.questions.forEach(q=>{ if(S.answers[q.id]===q.correct) correct++; });
+  const total = S.questions.length;
+  const score = total? Math.round((correct/total)*100) : 0;
+  const result = {
+    nik:S.siswa.nik, nama:S.siswa.nama, jk:S.siswa.jk, tgl:S.siswa.tgl,
+    paket:PAKET_LABEL[S.paket], benar:correct, total, skor:score,
+    waktu:new Date().toLocaleString("id-ID")
+  };
+  saveResult(result);
+  S.lastResult = result;
+  S.screen = "hasil";
+  render();
+}
+function renderHasil(){
+  const r = S.lastResult;
+  app.innerHTML = `
+  <div class="card">
+    <h2 style="text-align:center">Hasil Ujian</h2>
+    <div class="result-score">${r.skor}</div>
+    <p style="text-align:center;color:var(--muted)">Skor Akhir</p>
+    <div class="result-row"><span>Nama</span><b>${esc(r.nama)}</b></div>
+    <div class="result-row"><span>Paket</span><b>${esc(r.paket)}</b></div>
+    <div class="result-row"><span>Jawaban Benar</span><b>${r.benar} / ${r.total}</b></div>
+    <div class="result-row"><span>Waktu Selesai</span><b>${r.waktu}</b></div>
+    <div style="text-align:center;margin-top:20px">
+      <button class="btn" id="btnUlang">Ujian Baru</button>
+    </div>
+  </div>
+  <div class="card wide">
+    <h2>Pembahasan Soal</h2>
+    <p class="small">Tinjau kembali jawabanmu beserta pembahasan setiap soal.</p>
+    ${S.questions.map((q,i)=>{
+      const jawaban = S.answers[q.id];
+      const benar = jawaban===q.correct;
+      return `
+      <div class="review-item ${benar?'ok':'salah'}">
+        <div class="small">Soal ${i+1}</div>
+        <p style="font-weight:600;margin:4px 0">${esc(q.text)}</p>
+        ${q.img?`<img src="${q.img}" alt="gambar soal">`:""}
+        <div class="small">Jawaban Anda: <b>${jawaban?jawaban+". "+esc(q.options[jawaban]||""):"(tidak dijawab)"}</b>
+          &nbsp;<span class="review-status ${benar?'ok':'salah'}">${benar?"\u2713 Benar":"\u2717 Salah"}</span></div>
+        ${!benar?`<div class="small">Jawaban Benar: <b>${q.correct}. ${esc(q.options[q.correct]||"")}</b></div>`:""}
+        <div class="pembahasan-box"><b>Pembahasan:</b> ${esc(q.pembahasan||"Tidak ada pembahasan untuk soal ini.")}</div>
+      </div>`;
+    }).join("")}
+  </div>`;
+  document.getElementById("btnUlang").onclick = ()=>{ S = {screen:"login", login:{}, paket:null, siswa:{}, questions:[], answers:{}, idx:0}; render(); };
+}
+function renderAdminLogin(){
+  app.innerHTML = `
+  <div class="card">
+    <h2>Login Administrator</h2>
+    <label>Kata Sandi</label>
+    <input type="text" id="apw" placeholder="Masukkan kata sandi admin">
+    <p class="small">Kata sandi default: <b>admin123</b></p>
+    <div style="margin-top:16px;display:flex;justify-content:space-between">
+      <button class="btn ghost" id="aback">&larr; Kembali</button>
+      <button class="btn" id="alogin">Masuk</button>
+    </div>
+  </div>`;
+  document.getElementById("aback").onclick=()=>{ S.screen="login"; render(); };
+  document.getElementById("alogin").onclick=()=>{
+    if(document.getElementById("apw").value === "admin123"){ S.screen="admin"; S.adminTab="soal"; render(); }
+    else showAlert("Kata sandi salah.");
+  };
+}
+function renderAdmin(){
+  const store = getStore();
+  const timers = store.timers;
+  const results = loadResults();
+  S.adminPaket = S.adminPaket || "mtk1";
+  app.innerHTML = `
+  <div class="card wide">
+    <h2>Panel Administrator</h2>
+    <p class="small" id="centralStatus">Memeriksa status mode terpusat...</p>
+    <div class="adm-tabs">
+      <button data-t="soal" class="${S.adminTab==='soal'?'active':''}">Kelola Soal</button>
+      <button data-t="waktu" class="${S.adminTab==='waktu'?'active':''}">Pengaturan Waktu</button>
+      <button data-t="hasil" class="${S.adminTab==='hasil'?'active':''}">Rekap Hasil</button>
+      <button class="ghost" id="alogout" style="margin-left:auto">Keluar</button>
+    </div>
+    <div id="adminBody"></div>
+  </div>`;
+  checkCentralStatus();
+  app.querySelectorAll(".adm-tabs button[data-t]").forEach(b=>{
+    b.onclick=()=>{ S.adminTab=b.dataset.t; renderAdmin(); };
+  });
+  document.getElementById("alogout").onclick=()=>{ S.screen="login"; render(); };
+  const body = document.getElementById("adminBody");
+  if(S.adminTab==="soal"){
+    body.innerHTML = `
+      <label>Pilih Paket</label>
+      <select id="admPaketSel">${Object.keys(PAKET_LABEL).map(k=>`<option value="${k}" ${k===S.adminPaket?'selected':''}>${PAKET_LABEL[k]}</option>`).join("")}</select>
+      <div id="qlist" style="margin-top:16px"></div>
+      <h3>Tambah Soal Baru</h3>
+      <label>Teks Soal</label>
+      <textarea id="nqtext" rows="2"></textarea>
+      <label>Gambar Soal (opsional)</label>
+      <input type="file" id="nqimg" accept="image/*">
+      <label>Pilihan A</label><input type="text" id="nqa">
+      <label>Pilihan B</label><input type="text" id="nqb">
+      <label>Pilihan C</label><input type="text" id="nqc">
+      <label>Pilihan D</label><input type="text" id="nqd">
+      <label>Jawaban Benar</label>
+      <select id="nqcorrect"><option>A</option><option>B</option><option>C</option><option>D</option></select>
+      <label>Pembahasan</label>
+      <textarea id="nqpemb" rows="2" placeholder="Jelaskan cara/alasan jawaban yang benar"></textarea>
+      <div style="text-align:right;margin-top:12px"><button class="btn" id="btnAddQ">Tambah Soal</button></div>
+    `;
+    document.getElementById("admPaketSel").onchange=(e)=>{ S.adminPaket=e.target.value; renderAdmin(); };
+    renderQList();
+    document.getElementById("btnAddQ").onclick=async ()=>{
+      const text=document.getElementById("nqtext").value.trim();
+      const a=document.getElementById("nqa").value.trim(), b=document.getElementById("nqb").value.trim(),
+            c=document.getElementById("nqc").value.trim(), d=document.getElementById("nqd").value.trim();
+      const correct=document.getElementById("nqcorrect").value;
+      const pembahasan=document.getElementById("nqpemb").value.trim();
+      if(!text||!a||!b||!c||!d){ showAlert("Lengkapi teks soal dan semua pilihan jawaban."); return; }
+      const file = document.getElementById("nqimg").files[0];
+      const addQuestion = async (imgData)=>{
+        const st = getStore();
+        const list = st.questions[S.adminPaket];
+        const newId = list.length? Math.max(...list.map(q=>q.id))+1 : 1;
+        list.push({id:newId,text,img:imgData||null,options:{A:a,B:b,C:c,D:d},correct,pembahasan});
+        await saveStore(st);
+        renderAdmin();
+      };
+      if(file){ const reader=new FileReader(); reader.onload=()=>addQuestion(reader.result); reader.readAsDataURL(file); }
+      else await addQuestion(null);
+    };
+  } else if(S.adminTab==="waktu"){
+    body.innerHTML = `
+      <p class="small">Atur durasi ujian (menit) untuk setiap paket.</p>
+      ${Object.keys(PAKET_LABEL).map(k=>`
+        <label>${PAKET_LABEL[k]}</label>
+        <input type="number" min="1" max="180" id="tm_${k}" value="${timers[k]||30}">
+      `).join("")}
+      <div style="text-align:right;margin-top:14px"><button class="btn" id="btnSaveTimer">Simpan Pengaturan Waktu</button></div>
+    `;
+    document.getElementById("btnSaveTimer").onclick=async ()=>{
+      const st = getStore();
+      Object.keys(PAKET_LABEL).forEach(k=>{ st.timers[k]=parseInt(document.getElementById("tm_"+k).value)||30; });
+      const ok = await saveStore(st);
+      if(ok) showAlert("Pengaturan waktu disimpan dan otomatis berlaku untuk semua siswa.");
+    };
+  } else if(S.adminTab==="hasil"){
+    body.innerHTML = `
+      <p class="small">${results.length} peserta telah mengikuti ujian di perangkat ini.</p>
+      <div class="wrap-center"><table>
+        <tr><th>Nama</th><th>NIK</th><th>Paket</th><th>Skor</th><th>Benar</th><th>Waktu</th></tr>
+        ${results.map(r=>`<tr><td>${esc(r.nama)}</td><td>${esc(r.nik)}</td><td>${esc(r.paket)}</td><td>${r.skor}</td><td>${r.benar}/${r.total}</td><td>${r.waktu}</td></tr>`).join("")}
+      </table></div>
+    `;
+  }
+}
+function renderQList(){
+  const store = getStore();
+  const list = store.questions[S.adminPaket] || [];
+  const el = document.getElementById("qlist");
+  if(!el) return;
+  el.innerHTML = list.map(q=>`
+    <div class="qlist-item">
+      <b>${q.id}. ${esc(q.text)}</b>
+      ${q.img?`<img src="${q.img}">`:""}
+      <div class="small">A. ${esc(q.options.A)} &middot; B. ${esc(q.options.B)} &middot; C. ${esc(q.options.C)} &middot; D. ${esc(q.options.D)}</div>
+      <div class="small">Jawaban benar: <b>${q.correct}</b></div>
+      ${q.pembahasan?`<div class="small">Pembahasan: ${esc(q.pembahasan)}</div>`:""}
+      <div style="margin-top:6px"><button class="link" data-del="${q.id}">Hapus Soal</button></div>
+    </div>
+  `).join("") || "<p class='small'>Belum ada soal pada paket ini.</p>";
+  el.querySelectorAll("[data-del]").forEach(b=>{
+    b.onclick=()=>{
+      showConfirm("Hapus soal ini?", async ()=>{
+        const st2 = getStore();
+        st2.questions[S.adminPaket] = st2.questions[S.adminPaket].filter(q=>q.id!==parseInt(b.dataset.del));
+        await saveStore(st2);
+        renderQList();
+      });
+    };
+  });
+}
+ensureStore();
+render();
+</script>
+
+
+</body></html>
